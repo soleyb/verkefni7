@@ -13,6 +13,7 @@ const GAMES_TO_PLAY = 10;
  * Eftir leik er notanda boðið að spila annan leik, ef ekki hættir forrit.
  */
 function start() {
+  play();
   villa;
 }
 
@@ -28,6 +29,7 @@ function start() {
  *
  */
 function play() {
+  console.log("Reiknaðu");
 }
 
 /**
@@ -44,7 +46,49 @@ function play() {
  *
  * Sniðugt væri að færa það að búa til spurningu í nýtt fall sem ask() kallar í.
  */
-function ask() {
+function ask(op, num1, num2, ans) {
+  let theAnswer = Number(prompt("Hvað er " num1 op num2 "?" ));
+  let correct = false;
+  if (!Number.isNan(theAnswer) && theAnswer==ans){
+    correct = true;
+  }
+}
+
+/**
+  *Fall sem velur aðgerð á bilinu 1-4
+  1=+
+  2=-
+  3=*
+  4=/
+  og skilar tölum a og b ásamt svari
+  */
+
+function operation(opnum) {
+  if (opnum==1){
+    let op = "+";
+    let num1 = randomNumber(1,100);
+    let num2 = randomNumber(1,100);
+    let ans = num1+num2;
+  }
+  else if (opnum==2){
+    let op = "-";
+    let num1 = randomNumber(1,100);
+    let num2 = randomNumber(1,100);
+    let ans = num1-num2;
+  }
+  else if (opnum==3){
+    let op = "*";
+    let num1 = randomNumber(1,10);
+    let num2 = randomNumber(1,10);
+    let ans = num1*num2;
+  }
+  else {
+    let op = "/";
+    let num1 = randomNumber(2,10);
+    let num2 = num1*randomNumber(2,10);
+    let ans = num1/num2;
+  }
+  return [num1, num2, op, ans];
 }
 
 /**
