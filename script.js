@@ -14,7 +14,6 @@ const GAMES_TO_PLAY = 10;
  */
 function start() {
   play();
-  villa;
 }
 
 /**
@@ -29,7 +28,40 @@ function start() {
  *
  */
 function play() {
-  console.log("Reiknaðu");
+  var count = 0;
+  var timi = 0;
+  var rett = 0;
+  var naesta = true;
+  alert("Markmiðið er að svara eins mörgum dæmum af 10 rétt eins hratt og mögulegt er.");
+  while (count<GAMES_TO_PLAY){
+    if (naesta){
+      var t0=performance.now();
+      let spurn = adgerd(randomNumber(1,4));
+      svar = ask(spurn[0], spurn[1], spurn[2], spurn[3]);
+      var t1=performance.now();
+      count = count+1;
+      timi=timi+(t1-t0);
+      if (svar==true) {
+        rett = rett+1;
+      }
+      else if (svar==null){
+        naesta=false;
+      }
+    }
+    else {
+      alert("Hætt í leik.");
+      break;
+    }
+  }
+  if (count==10){
+    timi = timi/1000;
+    var medal = rett/timi;
+    alert("Þú svaraðir " + rett + " af " + GAMES_TO_PLAY + " dæmum rétt á " + timi + " sekúndum. Meðalrétt svör á sekúndu eru " + medal + ".");
+    naesta = confirm("Spila annan leik?");
+    if (naesta){
+      play();
+    }
+  }
 }
 
 /**
@@ -46,13 +78,20 @@ function play() {
  *
  * Sniðugt væri að færa það að búa til spurningu í nýtt fall sem ask() kallar í.
  */
-function ask(op, num1, num2, ans) {
-  let theAnswer = Number(prompt("Hvað er " num1 op num2 "?" ));
-  let correct = false;
-  if (!Number.isNan(theAnswer) && theAnswer==ans){
+
+
+function ask(num1, num2, op, ans) {
+  let theAnswer = Number(prompt("Hvað er " + num1 + op + num2 + "?" ));
+  if (theAnswer==null||theAnswer==""){
+    return null;
+  }
+  var correct = false;
+  if (theAnswer==ans){
     correct = true;
   }
+  return correct;
 }
+
 
 /**
   *Fall sem velur aðgerð á bilinu 1-4
@@ -63,32 +102,33 @@ function ask(op, num1, num2, ans) {
   og skilar tölum a og b ásamt svari
   */
 
-function operation(opnum) {
+function adgerd(opnum) {
   if (opnum==1){
-    let op = "+";
-    let num1 = randomNumber(1,100);
-    let num2 = randomNumber(1,100);
-    let ans = num1+num2;
+    var op = "+";
+    var num1 = randomNumber(1,100);
+    var num2 = randomNumber(1,100);
+    var ans = num1+num2;
   }
   else if (opnum==2){
-    let op = "-";
-    let num1 = randomNumber(1,100);
-    let num2 = randomNumber(1,100);
-    let ans = num1-num2;
+    var op = "-";
+    var num1 = randomNumber(1,100);
+    var num2 = randomNumber(1,100);
+    var ans = num1-num2;
   }
   else if (opnum==3){
-    let op = "*";
-    let num1 = randomNumber(1,10);
-    let num2 = randomNumber(1,10);
-    let ans = num1*num2;
+    var op = "*";
+    var num1 = randomNumber(1,10);
+    var num2 = randomNumber(1,10);
+    var ans = num1*num2;
   }
   else {
-    let op = "/";
-    let num1 = randomNumber(2,10);
-    let num2 = num1*randomNumber(2,10);
-    let ans = num1/num2;
+    var op = "/";
+    var num2 = randomNumber(2,10);
+    var num1 = num2*randomNumber(2,10);
+    var ans = num1/num2;
   }
-  return [num1, num2, op, ans];
+  var fylki = new Array(num1,num2,op,ans);
+  return fylki;
 }
 
 /**
